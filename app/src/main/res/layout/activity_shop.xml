@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".shop.ShopActivity">
+
+        <fragment
+            android:id="@+id/fragment_controller_main"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/shop_navigation"
+            tools:layout="@layout/home_fragment" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNav"
+            style="@style/BottomNavigationView"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:background="@color/white"
+            android:foreground="?attr/selectableItemBackground"
+            android:theme="@style/BottomNavigationView"
+            app:itemBackground="@color/white"
+            app:itemIconTint="@drawable/navigation_view_colored"
+            app:itemTextColor="@color/black"
+            app:labelVisibilityMode="selected"
+            app:menu="@menu/menu_bottom_navigation" />
+
+    </LinearLayout>
+
+</layout>

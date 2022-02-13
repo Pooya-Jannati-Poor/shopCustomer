@@ -1,3 +1,49 @@
 <resources>
-    <string name="app_name">Shop Customer</string>
+    <string name="app_name" translatable="false">ShopCustomer</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="shops" translatable="false">فروشگاه ها</string>
+    <string name="users" translatable="false">کاربران</string>
+    <string name="sells" translatable="false">فروش ها</string>
+    <string name="books" translatable="false">کتاب ها</string>
+    <string name="dashboard" translatable="false">داشبورد</string>
+    <string name="profile" translatable="false">پروفایل</string>
+    <string name="orders" translatable="false">سفارشات</string>
+    <string name="category" translatable="false">دسته بندی</string>
+    <string name="orders_list" translatable="false">لیست سفارشات</string>
+    <string name="products" translatable="false">محصولات</string>
+    <string name="search" translatable="false">جستجو</string>
+    <string name="home" translatable="false">خانه</string>
+    <string name="basket" translatable="false">سبد خرید</string>
+    <string name="profile_info" translatable="false">اطلاعات حساب کاربری</string>
+    <string name="profile_name_family" translatable="false">نام و نام خانوداگی</string>
+    <string name="profile_phone_number" translatable="false">شماره تماس</string>
+    <string name="profile_address" translatable="false">آدرس</string>
+    <string name="profile_logout" translatable="false">خروج از حساب کاربری</string>
+    <string name="profile_save" translatable="false">ذخیره</string>
+    <string name="book_available_count" translatable="false">موجودی</string>
+    <string name="product_add_new_book" translatable="false">افزودن کتاب جدید</string>
+    <string name="product_book_name" translatable="false">نام کتاب:</string>
+    <string name="product_book_writer" translatable="false">نام نویسنده:</string>
+    <string name="add_book" translatable="false">افزودن</string>
+    <string name="product_publication" translatable="false">نشر:</string>
+    <string name="product_category" translatable="false">دسته بندی:</string>
+    <string name="product_price" translatable="false">قیمت(تومان):</string>
+    <string name="product_page_count" translatable="false">تعداد صفحات:</string>
+    <string name="product_publish_year" translatable="false">سال انتشار:</string>
+    <string name="product_isbn" translatable="false">شابک:</string>
+    <string name="product_available_count" translatable="false">موجودی(عدد):</string>
+    <string name="product_discount" translatable="false">تخفیف روی این محصول(درصد):</string>
+    <string name="product_description" translatable="false">معرفی:</string>
+    <string name="payment_successful" translatable="false">پرداخت شده</string>
+    <string name="payment_failed" translatable="false">ناموفق</string>.
+
+    <string name="error_receive_data" translatable="false">خطا در دریافت اطلاعات! لطفا کمی دیرتر مجددا سعی نمایید</string>
+    <string name="error_send_data" translatable="false">خطا در ارسال اطلاعات! لطفا کمی دیرتر مجددا سعی نمایید</string>
+    <string name="zero" translatable="false">0</string>
+    <string name="login" translatable="false">ورود به حساب کاربری</string>
+    <string name="signup" translatable="false">ثبت نام</string>
+    <string name="signupShop" translatable="false">ثبت نام فروشگاه</string>
+    <string name="signupAdmin" translatable="false">ثبت نام ادمین</string>
+
 </resources>

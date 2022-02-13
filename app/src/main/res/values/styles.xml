@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="app_theme" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+
+    </style>
+
+    <style name="v2_img_home_banner_top">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">10%</item>
+    </style>
+
+    <style name="v2_img_home_product">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">5%</item>
+    </style>
+
+    <style name="img_admin_curve">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/_14sdp</item>
+    </style>
+
+    <style name="BottomNavigationView" parent="Widget.Design.BottomNavigationView">
+        <item name="android:layout_gravity">bottom</item>
+        <item name="android:textSize">@dimen/_10ssp</item>
+    </style>
+
+    <style name="editProfileInfo" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/_10ssp</item>
+        <item name="android:textColor">@color/light_black</item>
+        <item name="android:paddingEnd">@dimen/_10sdp</item>
+        <item name="android:paddingStart">@dimen/_10sdp</item>
+    </style>
+
+    <style name="textInputLayoutTextLabel" parent="TextAppearance.Design.Hint">
+        <item name="android:textSize">@dimen/_10ssp</item>
+    </style>
+
+
+</resources>

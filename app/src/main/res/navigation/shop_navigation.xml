@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/shop_navigation"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="ir.arinateam.shopcustomer.profile.ProfileFragment"
+        android:label="profile_fragment"
+        tools:layout="@layout/profile_fragment" >
+        <action
+            android:id="@+id/action_profileFragment_to_favoriteFragment"
+            app:destination="@id/favoriteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="ir.arinateam.shopcustomer.home.HomeFragment"
+        android:label="dashboard_fragment"
+        tools:layout="@layout/home_fragment">
+        <action
+            android:id="@+id/action_homeFragment_to_productFragment"
+            app:destination="@id/productFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_subCategoryFragment"
+            app:destination="@id/subCategoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="ir.arinateam.shopcustomer.SearchFragment"
+        android:label="products_fragment"
+        tools:layout="@layout/search_fragment">
+        <action
+            android:id="@+id/action_searchFragment_to_productFragment"
+            app:destination="@id/productFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="ir.arinateam.shopcustomer.category.CategoryFragment"
+        android:label="orders_fragment"
+        tools:layout="@layout/category_fragment" >
+        <action
+            android:id="@+id/action_categoryFragment_to_subCategoryFragment"
+            app:destination="@id/subCategoryFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/basketFragment"
+        android:name="ir.arinateam.shopcustomer.basket.BasketFragment"
+        android:label="orders_fragment"
+        tools:layout="@layout/basket_fragment" />
+    <fragment
+        android:id="@+id/productFragment"
+        android:name="ir.arinateam.shopcustomer.product.ProductFragment"
+        android:label="ProductFragment"
+        tools:layout="@layout/product_fragment" />
+    <fragment
+        android:id="@+id/subCategoryFragment"
+        android:name="ir.arinateam.shopcustomer.category.SubCategoryFragment"
+        android:label="SubCategoryFragment"
+        tools:layout="@layout/sub_category_fragment" >
+        <action
+            android:id="@+id/action_subCategoryFragment_to_productFragment"
+            app:destination="@id/productFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="ir.arinateam.shopcustomer.FavoriteFragment"
+        android:label="favorite_fragment"
+        tools:layout="@layout/favorite_fragment" >
+        <action
+            android:id="@+id/action_favoriteFragment_to_productFragment"
+            app:destination="@id/productFragment" />
+    </fragment>
+
+</navigation>
