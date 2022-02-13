@@ -1,11 +1,13 @@
 package ir.arinateam.shopcustomer.category.adapter
 
 import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -38,6 +40,18 @@ class AdapterRecCategory2(
             .fitCenter().into(holder.imgCategory)
 
         holder.tvCategory.text = model.name
+
+
+        holder.itemView.setOnClickListener {
+
+            val bundle = Bundle()
+            bundle.putInt("categoryId", model.id)
+            bundle.putString("categoryName", model.name)
+
+            Navigation.findNavController(it)
+                .navigate(R.id.action_categoryFragment_to_subCategoryFragment, bundle)
+
+        }
 
     }
 

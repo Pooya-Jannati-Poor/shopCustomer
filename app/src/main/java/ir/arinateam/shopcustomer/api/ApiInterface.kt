@@ -1,10 +1,12 @@
 package ir.arinateam.shopcustomer.api
 
+import ir.arinateam.shopcustomer.category.model.ModelCategoryDetailBase
 import ir.arinateam.shopcustomer.category.model.ModelSpCategoryBase
 import ir.arinateam.shopcustomer.home.model.ModelGetCustomerData
 import ir.arinateam.shopcustomer.login.model.ModelLogin
 import ir.arinateam.shopcustomer.login.model.ModelSignup
 import ir.arinateam.shopcustomer.product.model.ModelRecProductInfoBase
+import ir.arinateam.shopcustomer.profile.model.ModelRecFavoriteListBase
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -32,6 +34,7 @@ interface ApiInterface {
         @Query("model") model: String
     ): Call<ModelLogin>
 
+
     @Headers("Accept: application/json")
     @POST("users/register")
     fun signup(
@@ -46,6 +49,7 @@ interface ApiInterface {
     fun dashboard(
         @Header("Authorization") token: String
     ): Call<ModelGetCustomerData>
+
 
     @Headers("Accept: application/json")
     @GET("products/{id}")
@@ -68,10 +72,28 @@ interface ApiInterface {
         @Query("productId") id: Int
     ): Call<ResponseBody>
 
+
     @Headers("Accept: application/json")
     @GET("categories")
     fun categoryList(
         @Header("Authorization") token: String
     ): Call<ModelSpCategoryBase>
+
+
+    @Headers("Accept: application/json")
+    @GET("categories/{id}")
+    fun categoryDetail(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int,
+        @Query("latestProducts") latestProducts: Boolean = true,
+        @Query("otherProducts") otherProducts: Boolean = true
+    ): Call<ModelCategoryDetailBase>
+
+
+    @Headers("Accept: application/json")
+    @GET("favorites")
+    fun favoriteList(
+        @Header("Authorization") token: String
+    ): Call<ModelRecFavoriteListBase>
 
 }

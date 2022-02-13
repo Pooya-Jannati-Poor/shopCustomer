@@ -1,4 +1,4 @@
-package ir.arinateam.shopcustomer.category
+package ir.arinateam.shopcustomer.profile
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -9,31 +9,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ir.arinateam.shopadmin.api.ApiClient
 import ir.arinateam.shopcustomer.R
 import ir.arinateam.shopcustomer.api.ApiInterface
 import ir.arinateam.shopcustomer.category.adapter.AdapterRecProducts
-import ir.arinateam.shopcustomer.category.model.ModelCategoryDetailBase
 import ir.arinateam.shopcustomer.category.model.ModelRecProduct
-import ir.arinateam.shopcustomer.databinding.SubCategoryFragmentBinding
+import ir.arinateam.shopcustomer.category.model.ModelSpCategoryBase
+import ir.arinateam.shopcustomer.databinding.FavoriteFragmentBinding
+import ir.arinateam.shopcustomer.profile.model.ModelRecFavoriteListBase
 import ir.arinateam.shopcustomer.utils.Loading
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SubCategoryFragment : Fragment() {
 
-    private lateinit var bindingFragment: SubCategoryFragmentBinding
+class FavoriteFragment : Fragment() {
+
+    private lateinit var bindingFragment: FavoriteFragmentBinding
+
 
     private lateinit var imgBack: ImageView
-    private lateinit var tvCategoryName: TextView
-    private lateinit var recNewProduct: RecyclerView
     private lateinit var recProducts: RecyclerView
 
     override fun onCreateView(
@@ -41,8 +40,10 @@ class SubCategoryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        bindingFragment =
-            DataBindingUtil.inflate(inflater, R.layout.sub_category_fragment, container, false)
+        bindingFragment = DataBindingUtil.inflate(
+            inflater,
+            R.layout.favorite_fragment, container, false
+        )
         return bindingFragment.root
     }
 
@@ -51,17 +52,12 @@ class SubCategoryFragment : Fragment() {
 
         initView()
 
-        getProductsApi()
-
-        back()
-
+        getFavoriteListApi()
     }
 
     private fun initView() {
 
         imgBack = bindingFragment.imgBack
-        tvCategoryName = bindingFragment.tvCategoryName
-        recNewProduct = bindingFragment.recNewProduct
         recProducts = bindingFragment.recProducts
 
     }
@@ -70,9 +66,7 @@ class SubCategoryFragment : Fragment() {
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var token: String
 
-    private fun getProductsApi() {
-
-        tvCategoryName.text = requireArguments().getString("categoryName")
+    private fun getFavoriteListApi() {
 
         val loadingLottie = Loading(requireActivity())
 
@@ -87,14 +81,13 @@ class SubCategoryFragment : Fragment() {
 
         val apiInterface: ApiInterface = ApiClient.retrofit.create(ApiInterface::class.java)
 
-        val callLoading =
-            apiInterface.categoryDetail("Bearer $token", requireArguments().getInt("categoryId"))
+        val callFavoriteList = apiInterface.favoriteList("Bearer $token")
 
-        callLoading.enqueue(object : Callback<ModelCategoryDetailBase> {
+        callFavoriteList.enqueue(object : Callback<ModelRecFavoriteListBase> {
 
             override fun onResponse(
-                call: Call<ModelCategoryDetailBase>,
-                response: Response<ModelCategoryDetailBase>
+                call: Call<ModelRecFavoriteListBase>,
+                response: Response<ModelRecFavoriteListBase>
             ) {
 
                 loadingLottie.hideDialog()
@@ -106,18 +99,11 @@ class SubCategoryFragment : Fragment() {
 
                     val data = response.body()!!
 
-                    lsModelNewProduct = ArrayList()
+                    lsModelProduct = ArrayList()
 
-                    lsModelNewProduct.addAll(data.latestProducts)
+                    lsModelProduct.addAll(data.data)
 
-                    setRecNewProducts()
-
-
-                    lsModelOtherProduct = ArrayList()
-
-                    lsModelOtherProduct.addAll(data.otherProducts)
-
-                    setRecOtherProducts()
+                    setRecProducts()
 
                 } else {
 
@@ -131,7 +117,7 @@ class SubCategoryFragment : Fragment() {
 
             }
 
-            override fun onFailure(call: Call<ModelCategoryDetailBase>, t: Throwable) {
+            override fun onFailure(call: Call<ModelRecFavoriteListBase>, t: Throwable) {
 
                 loadingLottie.hideDialog()
 
@@ -147,43 +133,17 @@ class SubCategoryFragment : Fragment() {
 
     }
 
-    private lateinit var adapterRecNewProduct: AdapterRecProducts
-    private lateinit var lsModelNewProduct: ArrayList<ModelRecProduct>
+    private lateinit var adapterRecProducts: AdapterRecProducts
+    private lateinit var lsModelProduct: ArrayList<ModelRecProduct>
 
-    private fun setRecNewProducts() {
+    private fun setRecProducts() {
 
-        adapterRecNewProduct = AdapterRecProducts(requireActivity(), lsModelNewProduct)
-
-        val linearLayoutManager =
-            LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
-        recNewProduct.layoutManager = linearLayoutManager
-        recNewProduct.adapter = adapterRecNewProduct
-
-    }
-
-
-    private lateinit var adapterRecOtherProduct: AdapterRecProducts
-    private lateinit var lsModelOtherProduct: ArrayList<ModelRecProduct>
-
-    private fun setRecOtherProducts() {
-
-        adapterRecOtherProduct = AdapterRecProducts(requireActivity(), lsModelOtherProduct)
+        adapterRecProducts = AdapterRecProducts(requireActivity(), lsModelProduct)
 
         val linearLayoutManager =
             LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
         recProducts.layoutManager = linearLayoutManager
-        recProducts.adapter = adapterRecOtherProduct
-
-    }
-
-
-    private fun back() {
-
-        imgBack.setOnClickListener {
-
-            Navigation.findNavController(it).popBackStack()
-
-        }
+        recProducts.adapter = adapterRecProducts
 
     }
 
