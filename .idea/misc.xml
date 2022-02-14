@@ -7,6 +7,8 @@
         <entry key="app/src/main/res/drawable/bg_btn_login.xml" value="0.2085" />
         <entry key="app/src/main/res/drawable/bg_category.xml" value="0.2085" />
         <entry key="app/src/main/res/drawable/bg_ed_profile.xml" value="0.2085" />
+        <entry key="app/src/main/res/drawable/bg_ed_search.xml" value="0.2175" />
+        <entry key="app/src/main/res/drawable/bg_layout_basket.xml" value="0.2175" />
         <entry key="app/src/main/res/drawable/bg_user_comment.xml" value="0.2085" />
         <entry key="app/src/main/res/drawable/ic_back.xml" value="0.2085" />
         <entry key="app/src/main/res/drawable/ic_home.xml" value="0.2085" />
@@ -18,10 +20,11 @@
         <entry key="app/src/main/res/drawable/navigation_view_colored.xml" value="0.2085" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.2833333333333333" />
         <entry key="app/src/main/res/layout/activity_shop.xml" value="0.2833333333333333" />
-        <entry key="app/src/main/res/layout/basket_fragment.xml" value="0.12359550561797752" />
+        <entry key="app/src/main/res/layout/basket_fragment.xml" value="0.29791666666666666" />
         <entry key="app/src/main/res/layout/category_fragment.xml" value="0.29791666666666666" />
         <entry key="app/src/main/res/layout/favorite_fragment.xml" value="0.29791666666666666" />
         <entry key="app/src/main/res/layout/home_fragment.xml" value="0.18310333221137665" />
+        <entry key="app/src/main/res/layout/layout_rec_basket.xml" value="0.29791666666666666" />
         <entry key="app/src/main/res/layout/layout_rec_category.xml" value="0.29791666666666666" />
         <entry key="app/src/main/res/layout/layout_rec_comments.xml" value="0.29791666666666666" />
         <entry key="app/src/main/res/layout/layout_rec_home_banner_top.xml" value="0.2833333333333333" />
@@ -35,6 +38,7 @@
         <entry key="app/src/main/res/layout/login_step2_fragment.xml" value="0.2833333333333333" />
         <entry key="app/src/main/res/layout/product_fragment.xml" value="0.2833333333333333" />
         <entry key="app/src/main/res/layout/profile_fragment.xml" value="0.2833333333333333" />
+        <entry key="app/src/main/res/layout/search_fragment.xml" value="0.29791666666666666" />
         <entry key="app/src/main/res/layout/signup_fragment.xml" value="0.2833333333333333" />
         <entry key="app/src/main/res/layout/sub_category_fragment.xml" value="0.20722222222222222" />
         <entry key="app/src/main/res/menu/menu_bottom_navigation.xml" value="0.2833333333333333" />

@@ -5,26 +5,15 @@ import ir.arinateam.shopcustomer.category.model.ModelSpCategoryBase
 import ir.arinateam.shopcustomer.home.model.ModelGetCustomerData
 import ir.arinateam.shopcustomer.login.model.ModelLogin
 import ir.arinateam.shopcustomer.login.model.ModelSignup
+import ir.arinateam.shopcustomer.product.model.ModelCheckFavorite
 import ir.arinateam.shopcustomer.product.model.ModelRecProductInfoBase
 import ir.arinateam.shopcustomer.profile.model.ModelRecFavoriteListBase
+import ir.arinateam.shopcustomer.search.model.ModelSearchProductBase
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
 
 interface ApiInterface {
-
-    /*@FormUrlEncoded
-    @POST("initial/data")
-    fun loadingWithUUID(
-        @Field("modelName") modelName: String,
-        @Field("uuid") uuid: String,
-    ): Call<ModelLoading>
-
-
-    @GET("coffeeShops")
-    fun cafeList(
-        @Header("Authorization") token: String
-    ): Call<ModelCafeList>*/
 
     @Headers("Accept: application/json")
     @POST("users/login")
@@ -95,5 +84,37 @@ interface ApiInterface {
     fun favoriteList(
         @Header("Authorization") token: String
     ): Call<ModelRecFavoriteListBase>
+
+
+    @Headers("Accept: application/json")
+    @POST("favorites/check")
+    fun checkFavorite(
+        @Header("Authorization") token: String,
+        @Query("productId") id: Int
+    ): Call<ModelCheckFavorite>
+
+
+    @Headers("Accept: application/json")
+    @POST("favorites")
+    fun addFavorite(
+        @Header("Authorization") token: String,
+        @Query("productId") id: Int
+    ): Call<ResponseBody>
+
+
+    @Headers("Accept: application/json")
+    @DELETE("favorites/{id}")
+    fun removeFavorite(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int
+    ): Call<ResponseBody>
+
+
+    @Headers("Accept: application/json")
+    @GET("products")
+    fun searchProduct(
+        @Header("Authorization") token: String,
+        @Query("name") bookName: String
+    ): Call<ModelSearchProductBase>
 
 }

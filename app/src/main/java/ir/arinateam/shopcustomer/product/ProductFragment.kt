@@ -25,6 +25,7 @@ import ir.arinateam.shopcustomer.home.adapter.AdapterRecProduct
 import ir.arinateam.shopcustomer.home.model.ModelRecHomeProduct
 import ir.arinateam.shopcustomer.product.adapter.AdapterRecComment
 import ir.arinateam.shopcustomer.product.adapter.AdapterRecProductInfo
+import ir.arinateam.shopcustomer.product.model.ModelCheckFavorite
 import ir.arinateam.shopcustomer.product.model.ModelRecComment
 import ir.arinateam.shopcustomer.product.model.ModelRecProductInfo
 import ir.arinateam.shopcustomer.product.model.ModelRecProductInfoBase
@@ -135,6 +136,8 @@ class ProductFragment : Fragment() {
 
                     changeFavorite()
 
+                    checkFavoriteApi()
+
                     Glide.with(requireActivity())
                         .load("http://applicationfortests.ir/" + data.product.image)
                         .diskCacheStrategy(
@@ -218,6 +221,203 @@ class ProductFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<ModelRecProductInfoBase>, t: Throwable) {
+
+                loadingLottie.hideDialog()
+
+                Toast.makeText(
+                    requireActivity(),
+                    resources.getText(R.string.error_send_data).toString(),
+                    Toast.LENGTH_SHORT
+                ).show()
+
+            }
+
+        })
+
+    }
+
+    private fun checkFavoriteApi() {
+
+        val loadingLottie = Loading(requireActivity())
+
+        apiClient = ApiClient()
+
+        val apiInterface: ApiInterface = ApiClient.retrofit.create(ApiInterface::class.java)
+
+        val callLoading =
+            apiInterface.checkFavorite("Bearer $token", requireArguments().getInt("productId"))
+
+        callLoading.enqueue(object : Callback<ModelCheckFavorite> {
+
+            override fun onResponse(
+                call: Call<ModelCheckFavorite>,
+                response: Response<ModelCheckFavorite>
+            ) {
+
+                loadingLottie.hideDialog()
+
+                Log.d("dataTest", response.code().toString())
+                Log.d("dataTest", response.body().toString())
+
+                if (response.code() == 200) {
+
+                    val data = response.body()!!
+
+                    if (data.exists) {
+
+                        imgFavorite.setImageResource(R.drawable.ic_bookmark_fill)
+                        isFavorite = true
+
+                    }
+
+                    changeFavoriteState()
+
+                } else {
+
+                    Toast.makeText(
+                        requireActivity(),
+                        resources.getText(R.string.error_receive_data).toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                }
+
+            }
+
+            override fun onFailure(call: Call<ModelCheckFavorite>, t: Throwable) {
+
+                loadingLottie.hideDialog()
+
+                Toast.makeText(
+                    requireActivity(),
+                    resources.getText(R.string.error_send_data).toString(),
+                    Toast.LENGTH_SHORT
+                ).show()
+
+            }
+
+        })
+
+    }
+
+    private var isFavorite = false
+
+    private fun changeFavoriteState() {
+
+        imgFavorite.setOnClickListener {
+
+            if (isFavorite) {
+
+                removeFavoriteApi()
+
+            } else {
+
+                addFavoriteApi()
+
+            }
+
+        }
+
+    }
+
+    private fun addFavoriteApi() {
+
+        val loadingLottie = Loading(requireActivity())
+
+        apiClient = ApiClient()
+
+        val apiInterface: ApiInterface = ApiClient.retrofit.create(ApiInterface::class.java)
+
+        val callLoading =
+            apiInterface.addFavorite("Bearer $token", requireArguments().getInt("productId"))
+
+        callLoading.enqueue(object : Callback<ResponseBody> {
+
+            override fun onResponse(
+                call: Call<ResponseBody>,
+                response: Response<ResponseBody>
+            ) {
+
+                loadingLottie.hideDialog()
+
+                Log.d("dataTest", response.code().toString())
+                Log.d("dataTest", response.body().toString())
+
+                if (response.code() == 204) {
+
+                    imgFavorite.setImageResource(R.drawable.ic_bookmark_fill)
+                    isFavorite = true
+
+                } else {
+
+                    Toast.makeText(
+                        requireActivity(),
+                        resources.getText(R.string.error_receive_data).toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                }
+
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+
+                loadingLottie.hideDialog()
+
+                Toast.makeText(
+                    requireActivity(),
+                    resources.getText(R.string.error_send_data).toString(),
+                    Toast.LENGTH_SHORT
+                ).show()
+
+            }
+
+        })
+
+    }
+
+
+    private fun removeFavoriteApi() {
+
+        val loadingLottie = Loading(requireActivity())
+
+        apiClient = ApiClient()
+
+        val apiInterface: ApiInterface = ApiClient.retrofit.create(ApiInterface::class.java)
+
+        val callLoading =
+            apiInterface.removeFavorite("Bearer $token", requireArguments().getInt("productId"))
+
+        callLoading.enqueue(object : Callback<ResponseBody> {
+
+            override fun onResponse(
+                call: Call<ResponseBody>,
+                response: Response<ResponseBody>
+            ) {
+
+                loadingLottie.hideDialog()
+
+                Log.d("dataTest", response.code().toString())
+                Log.d("dataTest", response.body().toString())
+
+                if (response.code() == 204) {
+
+                    imgFavorite.setImageResource(R.drawable.ic_bookmark)
+                    isFavorite = false
+
+                } else {
+
+                    Toast.makeText(
+                        requireActivity(),
+                        resources.getText(R.string.error_receive_data).toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                }
+
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
 
                 loadingLottie.hideDialog()
 

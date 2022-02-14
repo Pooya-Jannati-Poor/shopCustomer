@@ -37,11 +37,11 @@
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recCategory"
+            android:id="@+id/recProducts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_12sdp"
-            tools:listitem="@layout/layout_rec_category"/>
+            tools:listitem="@layout/layout_rec_basket"/>
 
     </LinearLayout>
 
