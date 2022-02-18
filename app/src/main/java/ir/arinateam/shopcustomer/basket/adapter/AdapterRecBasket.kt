@@ -2,6 +2,7 @@ package ir.arinateam.shopcustomer.basket.adapter
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -11,15 +12,18 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import ir.arinateam.shopcustomer.MainActivity
 import ir.arinateam.shopcustomer.R
 import ir.arinateam.shopcustomer.basket.model.ModelRecBasket
 import ir.arinateam.shopcustomer.databinding.LayoutRecBasketBinding
-import ir.arinateam.shopcustomer.databinding.LayoutRecProductsBinding
+import ir.arinateam.shopcustomer.utils.BasketItemChange
 import ir.arinateam.shopcustomer.utils.NumbersSeparator
+import org.json.JSONObject
 
 class AdapterRecBasket(
     private val context: Context,
-    private val lsModelBasket: List<ModelRecBasket>
+    private val lsModelBasket: ArrayList<ModelRecBasket>,
+    private val basketItemChange: BasketItemChange
 ) : RecyclerView.Adapter<AdapterRecBasket.ItemAdapter>() {
 
     private lateinit var bindingAdapter: LayoutRecBasketBinding
@@ -42,10 +46,14 @@ class AdapterRecBasket(
 
         holder.tvBookName.text = model.name
 
+        holder.tvCount.text = model.amount.toString()
+
         val numbersSeparator = NumbersSeparator()
 
+        val price = model.amount * model.discountedPrice
+
         holder.tvBookPrice.text =
-            numbersSeparator.doubleToStringNoDecimal(model.discountedPrice.toDouble()) + " تومان"
+            numbersSeparator.doubleToStringNoDecimal(price.toDouble()) + " تومان"
 
         holder.imgProduct.setOnClickListener {
 
@@ -56,6 +64,79 @@ class AdapterRecBasket(
                 .navigate(R.id.action_basketFragment_to_productFragment, bundle)
 
         }
+
+        holder.imgIncrease.setOnClickListener {
+
+            for (i in 0 until MainActivity.jsonArrayBasket.length()) {
+
+                val item = MainActivity.jsonArrayBasket.getJSONObject(i)
+
+                if (model.id == item.getInt("productId")) {
+
+                    val tempJson = JSONObject()
+
+                    tempJson.put("productId", model.id)
+                    tempJson.put("amount", model.amount + 1)
+
+                    MainActivity.jsonArrayBasket.put(i, tempJson)
+
+                    MainActivity.jsonObjectBasket = JSONObject()
+
+                    MainActivity.jsonObjectBasket.put("orders", MainActivity.jsonArrayBasket)
+
+                }
+
+            }
+
+            basketItemChange.onChanged()
+
+        }
+
+        holder.imgReduce.setOnClickListener {
+
+            if (model.amount > 1) {
+
+                for (i in 0 until MainActivity.jsonArrayBasket.length()) {
+
+                    val item = MainActivity.jsonArrayBasket.getJSONObject(i)
+
+                    if (model.id == item.getInt("productId")) {
+
+                        val tempJson = JSONObject()
+
+                        tempJson.put("productId", model.id)
+                        tempJson.put("amount", model.amount - 1)
+
+                        MainActivity.jsonArrayBasket.put(i, tempJson)
+
+                        MainActivity.jsonObjectBasket = JSONObject()
+
+                        MainActivity.jsonObjectBasket.put("orders", MainActivity.jsonArrayBasket)
+
+                    }
+
+                }
+
+                basketItemChange.onChanged()
+
+            }
+
+        }
+
+        holder.imgDelete.setOnClickListener {
+
+            removeProduct(holder.adapterPosition)
+            basketItemChange.onRemoved(model.id)
+
+        }
+
+    }
+
+    private fun removeProduct(adapterPosition: Int) {
+
+        lsModelBasket.removeAt(adapterPosition)
+        notifyItemRemoved(adapterPosition)
+
 
     }
 

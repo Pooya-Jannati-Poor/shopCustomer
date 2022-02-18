@@ -8,6 +8,8 @@ data class ModelRecBasket(
 
     val name: String,
 
-    val discountedPrice: Int
+    val discountedPrice: Int,
+
+    val amount: Int
 
 )

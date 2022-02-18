@@ -18,6 +18,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.imageview.ShapeableImageView
 import ir.arinateam.shopadmin.api.ApiClient
+import ir.arinateam.shopcustomer.MainActivity.Companion.jsonArrayBasket
+import ir.arinateam.shopcustomer.MainActivity.Companion.jsonObjectBasket
 import ir.arinateam.shopcustomer.R
 import ir.arinateam.shopcustomer.api.ApiInterface
 import ir.arinateam.shopcustomer.databinding.ProductFragmentBinding
@@ -32,6 +34,7 @@ import ir.arinateam.shopcustomer.product.model.ModelRecProductInfoBase
 import ir.arinateam.shopcustomer.utils.Loading
 import ir.arinateam.shopcustomer.utils.NumbersSeparator
 import okhttp3.ResponseBody
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -72,6 +75,8 @@ class ProductFragment : Fragment() {
         initView()
 
         getProductDetailApi()
+
+        addToBasket()
 
         back()
 
@@ -127,9 +132,6 @@ class ProductFragment : Fragment() {
 
                 loadingLottie.hideDialog()
 
-                Log.d("dataTest", response.code().toString())
-                Log.d("dataTest", response.body().toString())
-
                 if (response.code() == 200) {
 
                     val data = response.body()!!
@@ -137,6 +139,8 @@ class ProductFragment : Fragment() {
                     changeFavorite()
 
                     checkFavoriteApi()
+
+                    isProductInBasket()
 
                     Glide.with(requireActivity())
                         .load("http://applicationfortests.ir/" + data.product.image)
@@ -236,6 +240,28 @@ class ProductFragment : Fragment() {
 
     }
 
+    private var isAddedToBasket = false
+
+    private fun isProductInBasket() {
+
+        if (jsonArrayBasket.length() != 0) {
+
+            for (i in 0 until jsonArrayBasket.length()) {
+
+                val item = jsonArrayBasket.getJSONObject(i)
+
+                if (item.getInt("productId") == requireArguments().getInt("productId")) {
+
+                    isAddedToBasket = true
+
+                }
+
+            }
+
+        }
+
+    }
+
     private fun checkFavoriteApi() {
 
         val loadingLottie = Loading(requireActivity())
@@ -255,9 +281,6 @@ class ProductFragment : Fragment() {
             ) {
 
                 loadingLottie.hideDialog()
-
-                Log.d("dataTest", response.code().toString())
-                Log.d("dataTest", response.body().toString())
 
                 if (response.code() == 200) {
 
@@ -340,9 +363,6 @@ class ProductFragment : Fragment() {
 
                 loadingLottie.hideDialog()
 
-                Log.d("dataTest", response.code().toString())
-                Log.d("dataTest", response.body().toString())
-
                 if (response.code() == 204) {
 
                     imgFavorite.setImageResource(R.drawable.ic_bookmark_fill)
@@ -396,9 +416,6 @@ class ProductFragment : Fragment() {
             ) {
 
                 loadingLottie.hideDialog()
-
-                Log.d("dataTest", response.code().toString())
-                Log.d("dataTest", response.body().toString())
 
                 if (response.code() == 204) {
 
@@ -520,8 +537,6 @@ class ProductFragment : Fragment() {
 
                 loadingLottie.hideDialog()
 
-                Log.d("dataTest", response.code().toString())
-                Log.d("dataTest", response.body().toString())
 
                 if (response.code() == 200) {
 
@@ -556,6 +571,44 @@ class ProductFragment : Fragment() {
             }
 
         })
+
+    }
+
+    private fun addToBasket() {
+
+        btnAddToBasket.setOnClickListener {
+
+            isProductInBasket()
+
+            if (isAddedToBasket) {
+
+                Toast.makeText(
+                    requireActivity(),
+                    "محصول در سبد خرید شما موجود می باشد",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+            } else {
+
+                val jsonObject = JSONObject()
+                jsonObject.put("productId", requireArguments().getInt("productId"))
+                jsonObject.put("amount", 1)
+
+                jsonArrayBasket.put(jsonObject)
+
+                jsonObjectBasket.put("orders", jsonArrayBasket)
+
+                Toast.makeText(
+                    requireActivity(),
+                    "محصول به سبد خرید شما اضافه شد",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+            }
+
+            Log.d("dataTest", jsonObjectBasket.toString())
+
+        }
 
     }
 

@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-v24/bg_green_curve.xml" value="0.173" />
         <entry key="app/src/main/res/drawable/bg_btn_comment.xml" value="0.2085" />
         <entry key="app/src/main/res/drawable/bg_btn_login.xml" value="0.2085" />
         <entry key="app/src/main/res/drawable/bg_category.xml" value="0.2085" />

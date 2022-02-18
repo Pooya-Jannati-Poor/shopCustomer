@@ -9,6 +9,7 @@ import ir.arinateam.shopcustomer.product.model.ModelCheckFavorite
 import ir.arinateam.shopcustomer.product.model.ModelRecProductInfoBase
 import ir.arinateam.shopcustomer.profile.model.ModelRecFavoriteListBase
 import ir.arinateam.shopcustomer.search.model.ModelSearchProductBase
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -116,5 +117,21 @@ interface ApiInterface {
         @Header("Authorization") token: String,
         @Query("name") bookName: String
     ): Call<ModelSearchProductBase>
+
+    @Headers("Accept: application/json")
+    @GET("products")
+    fun productList(
+        @Header("Authorization") token: String,
+        @Header("productsIds") ids: List<Int>
+    ): Call<ModelSearchProductBase>
+
+
+    @Headers("Accept: application/json")
+    @POST("orders")
+    fun makeOrder(
+        @Header("Authorization") token: String,
+        @Body orders: RequestBody,
+        @Query("state") state: String
+    ): Call<ResponseBody>
 
 }

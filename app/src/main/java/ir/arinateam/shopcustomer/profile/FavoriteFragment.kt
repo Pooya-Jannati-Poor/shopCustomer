@@ -20,6 +20,8 @@ import ir.arinateam.shopcustomer.category.adapter.AdapterRecProducts
 import ir.arinateam.shopcustomer.category.model.ModelRecProduct
 import ir.arinateam.shopcustomer.category.model.ModelSpCategoryBase
 import ir.arinateam.shopcustomer.databinding.FavoriteFragmentBinding
+import ir.arinateam.shopcustomer.profile.adapter.AdapterRecFavoriteList
+import ir.arinateam.shopcustomer.profile.model.ModelRecFavoriteList
 import ir.arinateam.shopcustomer.profile.model.ModelRecFavoriteListBase
 import ir.arinateam.shopcustomer.utils.Loading
 import retrofit2.Call
@@ -100,8 +102,15 @@ class FavoriteFragment : Fragment() {
                     val data = response.body()!!
 
                     lsModelProduct = ArrayList()
+                    lsModelFavoriteList = ArrayList()
 
-                    lsModelProduct.addAll(data.data)
+                    lsModelFavoriteList.addAll(data.data)
+
+                    data.data.forEach {
+
+                        lsModelProduct.add(it.product)
+
+                    }
 
                     setRecProducts()
 
@@ -133,12 +142,14 @@ class FavoriteFragment : Fragment() {
 
     }
 
-    private lateinit var adapterRecProducts: AdapterRecProducts
+    private lateinit var adapterRecProducts: AdapterRecFavoriteList
     private lateinit var lsModelProduct: ArrayList<ModelRecProduct>
+    private lateinit var lsModelFavoriteList: ArrayList<ModelRecFavoriteList>
 
     private fun setRecProducts() {
 
-        adapterRecProducts = AdapterRecProducts(requireActivity(), lsModelProduct)
+        adapterRecProducts =
+            AdapterRecFavoriteList(requireActivity(), lsModelProduct, lsModelFavoriteList)
 
         val linearLayoutManager =
             LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
