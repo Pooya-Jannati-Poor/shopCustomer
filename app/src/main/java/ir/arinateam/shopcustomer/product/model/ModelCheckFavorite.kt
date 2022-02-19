@@ -2,6 +2,8 @@ package ir.arinateam.shopcustomer.product.model
 
 data class ModelCheckFavorite(
 
-    val exists: Boolean
+    val exists: Boolean,
+
+    val favoriteId: Int
 
 )

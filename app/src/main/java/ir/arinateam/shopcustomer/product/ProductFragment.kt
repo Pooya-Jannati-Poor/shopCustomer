@@ -262,6 +262,8 @@ class ProductFragment : Fragment() {
 
     }
 
+    private var favoriteId = 0
+
     private fun checkFavoriteApi() {
 
         val loadingLottie = Loading(requireActivity())
@@ -290,6 +292,8 @@ class ProductFragment : Fragment() {
 
                         imgFavorite.setImageResource(R.drawable.ic_bookmark_fill)
                         isFavorite = true
+
+                        favoriteId = data.favoriteId
 
                     }
 
@@ -368,6 +372,14 @@ class ProductFragment : Fragment() {
                     imgFavorite.setImageResource(R.drawable.ic_bookmark_fill)
                     isFavorite = true
 
+                    checkFavoriteApi()
+
+                    Toast.makeText(
+                        requireActivity(),
+                        "محصول با موفقیت به لیست علاقه مندی ها اضافه شد",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
                 } else {
 
                     Toast.makeText(
@@ -406,7 +418,7 @@ class ProductFragment : Fragment() {
         val apiInterface: ApiInterface = ApiClient.retrofit.create(ApiInterface::class.java)
 
         val callLoading =
-            apiInterface.removeFavorite("Bearer $token", requireArguments().getInt("productId"))
+            apiInterface.removeFavorite("Bearer $token", favoriteId)
 
         callLoading.enqueue(object : Callback<ResponseBody> {
 
@@ -421,6 +433,13 @@ class ProductFragment : Fragment() {
 
                     imgFavorite.setImageResource(R.drawable.ic_bookmark)
                     isFavorite = false
+                    favoriteId = 0
+
+                    Toast.makeText(
+                        requireActivity(),
+                        "محصول از لیست علاقه مندی ها حذف شد",
+                        Toast.LENGTH_SHORT
+                    ).show()
 
                 } else {
 
