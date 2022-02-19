@@ -27,19 +27,21 @@ import ir.arinateam.shopcustomer.home.adapter.AdapterRecProduct
 import ir.arinateam.shopcustomer.home.model.ModelRecHomeProduct
 import ir.arinateam.shopcustomer.product.adapter.AdapterRecComment
 import ir.arinateam.shopcustomer.product.adapter.AdapterRecProductInfo
+import ir.arinateam.shopcustomer.product.adapter.AdapterRecProductSameWriter
 import ir.arinateam.shopcustomer.product.model.ModelCheckFavorite
 import ir.arinateam.shopcustomer.product.model.ModelRecComment
 import ir.arinateam.shopcustomer.product.model.ModelRecProductInfo
 import ir.arinateam.shopcustomer.product.model.ModelRecProductInfoBase
 import ir.arinateam.shopcustomer.utils.Loading
 import ir.arinateam.shopcustomer.utils.NumbersSeparator
+import ir.arinateam.shopcustomer.utils.ProductSelected
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ProductFragment : Fragment() {
+class ProductFragment : Fragment(), ProductSelected {
 
     private lateinit var bindingFragment: ProductFragmentBinding
 
@@ -74,9 +76,7 @@ class ProductFragment : Fragment() {
 
         initView()
 
-        getProductDetailApi()
-
-        addToBasket()
+        getProductDetailApi(requireArguments().getInt("productId"))
 
         back()
 
@@ -105,7 +105,7 @@ class ProductFragment : Fragment() {
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var token: String
 
-    private fun getProductDetailApi() {
+    private fun getProductDetailApi(id: Int) {
 
         val loadingLottie = Loading(requireActivity())
 
@@ -121,7 +121,7 @@ class ProductFragment : Fragment() {
         val apiInterface: ApiInterface = ApiClient.retrofit.create(ApiInterface::class.java)
 
         val callLoading =
-            apiInterface.productInfo("Bearer $token", requireArguments().getInt("productId"))
+            apiInterface.productInfo("Bearer $token", id)
 
         callLoading.enqueue(object : Callback<ModelRecProductInfoBase> {
 
@@ -136,11 +136,13 @@ class ProductFragment : Fragment() {
 
                     val data = response.body()!!
 
-                    changeFavorite()
+                    changeFavorite(id)
 
-                    checkFavoriteApi()
+                    checkFavoriteApi(id)
 
-                    isProductInBasket()
+                    isProductInBasket(id)
+
+                    addToBasket(id)
 
                     Glide.with(requireActivity())
                         .load("http://applicationfortests.ir/" + data.product.image)
@@ -242,7 +244,7 @@ class ProductFragment : Fragment() {
 
     private var isAddedToBasket = false
 
-    private fun isProductInBasket() {
+    private fun isProductInBasket(id: Int) {
 
         if (jsonArrayBasket.length() != 0) {
 
@@ -250,7 +252,7 @@ class ProductFragment : Fragment() {
 
                 val item = jsonArrayBasket.getJSONObject(i)
 
-                if (item.getInt("productId") == requireArguments().getInt("productId")) {
+                if (item.getInt("productId") == id) {
 
                     isAddedToBasket = true
 
@@ -264,7 +266,7 @@ class ProductFragment : Fragment() {
 
     private var favoriteId = 0
 
-    private fun checkFavoriteApi() {
+    private fun checkFavoriteApi(id: Int) {
 
         val loadingLottie = Loading(requireActivity())
 
@@ -273,7 +275,7 @@ class ProductFragment : Fragment() {
         val apiInterface: ApiInterface = ApiClient.retrofit.create(ApiInterface::class.java)
 
         val callLoading =
-            apiInterface.checkFavorite("Bearer $token", requireArguments().getInt("productId"))
+            apiInterface.checkFavorite("Bearer $token", id)
 
         callLoading.enqueue(object : Callback<ModelCheckFavorite> {
 
@@ -297,7 +299,7 @@ class ProductFragment : Fragment() {
 
                     }
 
-                    changeFavoriteState()
+                    changeFavoriteState(id)
 
                 } else {
 
@@ -329,7 +331,7 @@ class ProductFragment : Fragment() {
 
     private var isFavorite = false
 
-    private fun changeFavoriteState() {
+    private fun changeFavoriteState(id: Int) {
 
         imgFavorite.setOnClickListener {
 
@@ -339,7 +341,7 @@ class ProductFragment : Fragment() {
 
             } else {
 
-                addFavoriteApi()
+                addFavoriteApi(id)
 
             }
 
@@ -347,7 +349,7 @@ class ProductFragment : Fragment() {
 
     }
 
-    private fun addFavoriteApi() {
+    private fun addFavoriteApi(id: Int) {
 
         val loadingLottie = Loading(requireActivity())
 
@@ -356,7 +358,7 @@ class ProductFragment : Fragment() {
         val apiInterface: ApiInterface = ApiClient.retrofit.create(ApiInterface::class.java)
 
         val callLoading =
-            apiInterface.addFavorite("Bearer $token", requireArguments().getInt("productId"))
+            apiInterface.addFavorite("Bearer $token", id)
 
         callLoading.enqueue(object : Callback<ResponseBody> {
 
@@ -372,7 +374,7 @@ class ProductFragment : Fragment() {
                     imgFavorite.setImageResource(R.drawable.ic_bookmark_fill)
                     isFavorite = true
 
-                    checkFavoriteApi()
+                    checkFavoriteApi(id)
 
                     Toast.makeText(
                         requireActivity(),
@@ -500,12 +502,13 @@ class ProductFragment : Fragment() {
     }
 
 
-    private lateinit var adapterRecSameWriter: AdapterRecProduct
+    private lateinit var adapterRecSameWriter: AdapterRecProductSameWriter
     private lateinit var lsModelSameWriter: ArrayList<ModelRecHomeProduct>
 
     private fun setRecSameWriter() {
 
-        adapterRecSameWriter = AdapterRecProduct(requireActivity(), lsModelSameWriter)
+        adapterRecSameWriter =
+            AdapterRecProductSameWriter(requireActivity(), lsModelSameWriter, this)
 
         val linearLayoutManager =
             LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, true)
@@ -515,18 +518,18 @@ class ProductFragment : Fragment() {
     }
 
 
-    private fun changeFavorite() {
+    private fun changeFavorite(id: Int) {
 
         imgFavorite.setOnClickListener {
 
-            changeFavoriteStateApi()
+            changeFavoriteStateApi(id)
 
         }
 
     }
 
 
-    private fun changeFavoriteStateApi() {
+    private fun changeFavoriteStateApi(id: Int) {
 
         val loadingLottie = Loading(requireActivity())
 
@@ -544,7 +547,7 @@ class ProductFragment : Fragment() {
         val callLoading =
             apiInterface.changeFavoriteState(
                 "Bearer $token",
-                requireArguments().getInt("productId")
+                id
             )
 
         callLoading.enqueue(object : Callback<ResponseBody> {
@@ -593,11 +596,11 @@ class ProductFragment : Fragment() {
 
     }
 
-    private fun addToBasket() {
+    private fun addToBasket(id: Int) {
 
         btnAddToBasket.setOnClickListener {
 
-            isProductInBasket()
+            isProductInBasket(id)
 
             if (isAddedToBasket) {
 
@@ -610,7 +613,7 @@ class ProductFragment : Fragment() {
             } else {
 
                 val jsonObject = JSONObject()
-                jsonObject.put("productId", requireArguments().getInt("productId"))
+                jsonObject.put("productId", id)
                 jsonObject.put("amount", 1)
 
                 jsonArrayBasket.put(jsonObject)
@@ -638,6 +641,12 @@ class ProductFragment : Fragment() {
             Navigation.findNavController(it).popBackStack()
 
         }
+
+    }
+
+    override fun onItemSelected(id: Int) {
+
+        getProductDetailApi(id)
 
     }
 

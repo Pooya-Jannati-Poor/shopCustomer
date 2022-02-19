@@ -245,7 +245,7 @@ class BasketFragment : Fragment(), BasketItemChange {
         adapterRecBasket = AdapterRecBasket(requireActivity(), lsModelRecBasket, this)
 
         val linearLayoutManager =
-            LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, true)
+            LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
         recProducts.layoutManager = linearLayoutManager
         recProducts.adapter = adapterRecBasket
 
