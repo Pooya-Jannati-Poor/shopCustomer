@@ -148,9 +148,9 @@ class BasketFragment : Fragment(), BasketItemChange {
 
                                 }
 
-                                basePriceAll += product.basePrice
+                                basePriceAll += product.basePrice * tempAmount
 
-                                finalPriceAll += product.discountedPrice
+                                finalPriceAll += product.discountedPrice * tempAmount
 
                             }
 
