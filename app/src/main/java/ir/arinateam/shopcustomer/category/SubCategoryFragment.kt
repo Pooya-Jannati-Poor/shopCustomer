@@ -22,6 +22,8 @@ import ir.arinateam.shopcustomer.category.adapter.AdapterRecProducts
 import ir.arinateam.shopcustomer.category.model.ModelCategoryDetailBase
 import ir.arinateam.shopcustomer.category.model.ModelRecProduct
 import ir.arinateam.shopcustomer.databinding.SubCategoryFragmentBinding
+import ir.arinateam.shopcustomer.home.adapter.AdapterRecProduct
+import ir.arinateam.shopcustomer.home.model.ModelRecHomeProduct
 import ir.arinateam.shopcustomer.utils.Loading
 import retrofit2.Call
 import retrofit2.Callback
@@ -108,7 +110,19 @@ class SubCategoryFragment : Fragment() {
 
                     lsModelNewProduct = ArrayList()
 
-                    lsModelNewProduct.addAll(data.latestProducts)
+                    data.latestProducts.forEach {
+
+
+                        lsModelNewProduct.add(
+                            ModelRecHomeProduct(
+                                it.id,
+                                it.name,
+                                it.image,
+                                it.discountedPrice
+                            )
+                        )
+
+                    }
 
                     setRecNewProducts()
 
@@ -147,12 +161,12 @@ class SubCategoryFragment : Fragment() {
 
     }
 
-    private lateinit var adapterRecNewProduct: AdapterRecProducts
-    private lateinit var lsModelNewProduct: ArrayList<ModelRecProduct>
+    private lateinit var adapterRecNewProduct: AdapterRecProduct
+    private lateinit var lsModelNewProduct: ArrayList<ModelRecHomeProduct>
 
     private fun setRecNewProducts() {
 
-        adapterRecNewProduct = AdapterRecProducts(requireActivity(), lsModelNewProduct)
+        adapterRecNewProduct = AdapterRecProduct(requireActivity(), lsModelNewProduct)
 
         val linearLayoutManager =
             LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
