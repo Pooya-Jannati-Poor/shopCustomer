@@ -122,7 +122,7 @@ interface ApiInterface {
     @GET("products")
     fun productList(
         @Header("Authorization") token: String,
-        @Header("productsIds") ids: List<Int>
+        @Query("productsIds[]") ids: List<Int>
     ): Call<ModelSearchProductBase>
 
 

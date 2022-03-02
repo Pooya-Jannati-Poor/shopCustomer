@@ -116,6 +116,8 @@ class BasketFragment : Fragment(), BasketItemChange {
 
                 loadingLottie.hideDialog()
 
+                Log.d("dataTest3", response.body().toString())
+
                 if (response.code() == 200) {
 
                     val data = response.body()!!
@@ -227,6 +229,11 @@ class BasketFragment : Fragment(), BasketItemChange {
 
         lsBasketIds = ArrayList()
 
+        Log.d("dataTest", MainActivity.jsonObjectBasket.toString())
+
+
+
+
         for (i in 0 until MainActivity.jsonArrayBasket.length()) {
 
             val item = MainActivity.jsonArrayBasket.getJSONObject(i)
@@ -234,6 +241,8 @@ class BasketFragment : Fragment(), BasketItemChange {
             lsBasketIds.add(item.getInt("productId"))
 
         }
+
+        Log.d("dataTest", lsBasketIds.size.toString())
 
     }
 

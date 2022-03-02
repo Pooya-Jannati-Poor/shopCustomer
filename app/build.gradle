@@ -3,7 +3,6 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-android'
     id 'kotlin-kapt'
-//    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -52,14 +51,14 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     // navigation
-    def nav_version = "2.3.5"
+    def nav_version = "2.4.1"
 
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
     //Glide
-    implementation 'com.github.bumptech.glide:glide:4.12.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+    implementation 'com.github.bumptech.glide:glide:4.13.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.0'
 
     //Calligraphy          //https://github.com/InflationX/Calligraphy
     implementation 'io.github.inflationx:calligraphy3:3.1.1'
@@ -78,6 +77,6 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.4'
 
-    implementation "com.airbnb.android:lottie:3.6.1"
+    implementation "com.airbnb.android:lottie:4.2.2"
 
 }

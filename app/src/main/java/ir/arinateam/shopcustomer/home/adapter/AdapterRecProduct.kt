@@ -2,6 +2,7 @@ package ir.arinateam.shopcustomer.home.adapter
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -48,6 +49,8 @@ class AdapterRecProduct(
             numbersSeparator.doubleToStringNoDecimal(model.discountedPrice.toDouble()) + " تومان"
 
         holder.itemView.setOnClickListener {
+
+            Log.d("dataTest2", model.id.toString())
 
             val bundle = Bundle()
             bundle.putInt("productId", model.id)
