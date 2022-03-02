@@ -124,6 +124,7 @@ class SignupFragment : Fragment() {
                 loading.hideDialog()
 
                 Log.d("dataTest", response.code().toString())
+                Toast.makeText(requireActivity(), response.code().toString(), Toast.LENGTH_LONG).show()
 
                 if (response.code() == 200) {
 
